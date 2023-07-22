@@ -1,0 +1,3 @@
+/bin/ls
+env
+exit

@@ -1,6 +1,4 @@
 #include "main.h"
-#include <string.h>
-#include <stdlib.h>
 
 char **cmd_args(char *s)
 {
