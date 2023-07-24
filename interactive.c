@@ -1,66 +1,49 @@
 #include "main.h"
-
-void interactive()
+/**
+ * interactive - displays interactive mode of shell
+ * Return: nothing
+ */
+void interactive(void)
 {
-	char *cmd = NULL;
+	char *cmd = NULL, **argv;
 	size_t len = 0;
-	char **argv;
 	pid_t child_pid;
-	int i;
-	built_in arr[] = {{"exit", exit_func}, {"env", print_env}};
 
 	while (1)
-                {
-                        write(STDOUT_FILENO, "#cisfun$ ", 9);
-                        if (getline(&cmd, &len, stdin) != -1)
-                        {
-                                cmd[_strchr(cmd, '\n')] = '\0';
-				for (i = 0; i < 2; i++)
+	{
+		write(STDOUT_FILENO, "#cisfun$ ", 9);
+		if (getline(&cmd, &len, stdin) != -1)
+		{
+			cmd[_strchr(cmd, '\n')] = '\0';
+			if (check_builtin(&cmd) != 2)
+				continue;
+			argv = cmd_args(cmd);
+			if (argv == NULL)
+				continue;
+			argv[0] = find(argv[0]);
+			if (argv[0] != NULL)
+			{
+				child_pid = fork();
+				if (child_pid == -1)
+					perror("./hsh");
+				else if (child_pid == 0)
 				{
-					if (_strcmp(arr[i].command, cmd) == 0)
-					{
-						free(cmd);
-						cmd = NULL;
-						arr[i].func_ptr();
-						break;
-					}
-					i++;
-				}
-				if (i != 2)
-					continue;
-                                argv = cmd_args(cmd);
-				argv[0] = find(argv[0]);
-				if (argv[0] != NULL)
-				{
-                                	child_pid = fork();
-                                	if (child_pid == -1)
-                                        	perror("./hsh");
-                                	else if (child_pid == 0)
-                                	{
-                                        	execve(argv[0], argv, environ);
-                                        	perror("./hsh");
-						free(argv[0]);
-						free(argv);
-						free(cmd);
-                                        	exit(EXIT_FAILURE);
-                                	}
-                                	else
-                                        	wait(NULL);
+					execve(argv[0], argv, environ);
 				}
 				else
-					perror("./hsh");
+					wait(NULL);
 			}
 			else
-			{
-				write(STDOUT_FILENO, "\n", 1);
-				exit(1);
-			}
-                        free(cmd);
-                        cmd = NULL;
-			free(argv[0]);
-                        free(argv);
-                }
-	return;
+				perror("./hsh");
+		}
+		else
+		{
+			free(cmd);
+			write(STDOUT_FILENO, "\n", 1);
+			exit(1);
+		}
+		free_mem(&cmd, argv);
+	}
 }
 /**
  * _strcmp - compares two strings
@@ -82,4 +65,40 @@ int _strcmp(char *s1, char *s2)
 		j++;
 	}
 	return (s1[j] - s2[j]);
+}
+/**
+ * check_builtin - looks if command given is a built in command
+ * @cmd: pointer to pointer to string storing command
+ * Return: an int based on command executed
+ */
+int check_builtin(char **cmd)
+{
+	int i;
+	built_in arr[] = {{"exit", exit_func}, {"env", print_env}};
+
+	for (i = 0; i < 2; i++)
+	{
+		if (_strcmp(arr[i].command, *cmd) == 0)
+		{
+			free(*cmd);
+			*cmd = NULL;
+			arr[i].func_ptr();
+			break;
+		}
+		i++;
+	}
+	return (i);
+}
+/**
+ * free_mem - frees overall memory in loop for interactive mode
+ * @cmd: pointer to pointer to string holding command
+ * @argv: holds the array of command with its arguments
+ * Return: nothing
+ */
+void free_mem(char **cmd, char **argv)
+{
+	free(*cmd);
+	*cmd = NULL;
+	free(argv[0]);
+	free(argv);
 }

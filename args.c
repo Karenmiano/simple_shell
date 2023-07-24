@@ -7,6 +7,8 @@ char **cmd_args(char *s)
 	int i, j;
 
 	token = strtok(s, " ");
+	if (token == NULL)
+		return (NULL);
 	for (i = 0, j = 1; token != NULL; i++, j++)
 	{
 		argv = _realloc(argv, sizeof(char *) * i, sizeof(char *) * j);

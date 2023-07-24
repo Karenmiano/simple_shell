@@ -1,3 +1,3 @@
 /bin/ls
-env
+/bin/ls /tmp
 exit
