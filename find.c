@@ -1,5 +1,9 @@
 #include "main.h"
-
+/**
+ * find - will check if command's executable exists
+ * @f: the command
+ * Return: absolute path of command, NULL if command doesn't exist
+ */
 char *find(char *f)
 {
 	char *s, *token, *found = NULL;
@@ -31,6 +35,11 @@ char *find(char *f)
 	free(s);
 	return (found);
 }
+/**
+ * _getenv - finds the value of an environment variable
+ * @name: the environment variable
+ * Return: a string carrying the value
+ */
 char *_getenv(const char *name)
 {
 	int i = 0;
@@ -49,68 +58,12 @@ char *_getenv(const char *name)
 	}
 	return (NULL);
 }
-int _strncmp(const char *s1, const char *s2, int n)
-{
-	int j = 0;
-
-	while (s1[j] == s2[j])
-	{
-		if (s1[j] == '\0' || j == n - 1)
-		{
-			return (0);
-		}
-		j++;
-	}
-	return (s1[j] - s2[j]);
-}
 /**
- * _strlen - finds the length of a string
- * @s: address of the string
- * Return: lenth of the string
+ * add_node_end - adds a node at end of linked list progressively built
+ * @head: pointer to pointer to head node
+ * @str: string containing to be examined full path of command
+ * Return: new node created
  */
-int _strlen(const char *s)
-{
-	int i = 0;
-
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-/**
- * _strdup - stores a copy of a string in memory
- * @str: the string to read from
- * Return: pointer to the copy
- */
-char *_strdup(char *str)
-{
-	char *strr;
-	int i = 0;
-
-	if (str == NULL)
-	{
-		return (NULL);
-	}
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	i += 1;
-	strr = malloc(i);
-	if (strr == NULL)
-	{
-		return (NULL);
-	}
-	i = 0;
-	while (str[i] != '\0')
-	{
-		strr[i] = str[i];
-		i++;
-	}
-	strr[i] = '\0';
-	return (strr);
-}
 path_dir *add_node_end(path_dir **head, char *str)
 {
 	path_dir *end;
@@ -135,7 +88,8 @@ path_dir *add_node_end(path_dir **head, char *str)
 	return (end);
 }
 /**
- * str_concat - concatenates two strings and stores the copy
+ * concat - concatenates the directory paths with commands and stores
+ * a copy
  * @s1: string
  * @s2: string
  * Return: pointer to the copy

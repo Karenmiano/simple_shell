@@ -1,5 +1,10 @@
 #include "main.h"
-
+/**
+ * cmd_args - will tokenize to separate the command given from
+ * its arguments
+ * @s: the command
+ * Return: array of strings holding the command and its arguments
+ */
 char **cmd_args(char *s)
 {
 	char *token;

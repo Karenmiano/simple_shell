@@ -1,3 +1,3 @@
 /bin/ls
-/bin/ls /tmp
-exit
+mg
+ks

@@ -12,7 +12,7 @@ void non_interactive(void)
 	while (getline(&cmd, &len, stdin) != -1)
 	{
 		cmd[_strchr(cmd, '\n')] = '\0';
-		if (i != 2)
+		if (check_builtin(&cmd) != 2)
 			continue;
 		argv = cmd_args(cmd);
 		if (argv == NULL)
@@ -28,9 +28,7 @@ void non_interactive(void)
 				execve(argv[0], argv, environ);
 			}
 			else
-			{
 				wait(NULL);
-			}
 		}
 		else
 			perror("./hsh");
