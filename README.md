@@ -7,3 +7,7 @@ This wil compile all the '.c' files and change the output's name to 'hsh'.
 
 Template to test output
 =============$./hsh
+
+hsh main.c shell.c
+
+After cloning this respository and compile the program with command above,it will generate a file called hsh that can be executed by entering ./hsh in the shell
