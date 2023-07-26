@@ -1,3 +1,0 @@
-/bin/ls
-mg
-ks
