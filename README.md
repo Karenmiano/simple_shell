@@ -1,4 +1,4 @@
-SIMPLE-SHELL :-This is the reprication of the normal shell terminal.Which consist of some of the normal shell fuctionality commands.
+SIMPLE-SHELL :-This is the replication of the normal shell terminal.Which consist of some of the normal shell functionality commands.
 
 GCC command to compile
 gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
@@ -10,4 +10,4 @@ Template to test output
 
 hsh main.c shell.c
 
-After cloning this respository and compile the program with command above,it will generate a file called hsh that can be executed by entering ./hsh in the shell
+On execution (./hsh) a command prompt will appear and you can proceed to write your shell commands as usual.
